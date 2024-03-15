@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDoS Attack Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+</head>
+<body>
+    <h1 class="mb-4">DDoS Attack Prediction</h1>
+    <div class="form-container">
+        
+        <div class="form-group">
+            <label for="duration">Duration:</label>
+            <input type="number" id="duration" name="duration">
+        </div>
+        <div class="form-group">
+            <label for="service">Service:</label>
+            <input type="text" id="service" name="service">
+        </div>
+        <div class="form-group">
+            <label for="src_bytes">Source Bytes:</label>
+            <input type="number" id="src_bytes" name="src_bytes">
+        </div>
+        <div class="form-group">
+            <label for="dst_bytes">Destination Bytes:</label>
+            <input type="number" id="dst_bytes" name="dst_bytes">
+        </div>
+        <div class="form-group">
+            <label for="wrong_fragment">Wrong Fragment:</label>
+            <input type="number" id="wrong_fragment" name="wrong_fragment">
+        </div>
+        <div class="form-group">
+            <label for="hot">Hot:</label>
+            <input type="number" id="hot" name="hot">
+        </div>
+        <div class="form-group">
+            <label for="count">Count:</label>
+            <input type="number" id="count" name="count">
+        </div>
+        <div class="form-group">
+            <label for="srv_count">Service Count:</label>
+            <input type="number" id="srv_count" name="srv_count">
+        </div>
+        <div class="form-group">
+            <label for="dst_host_count">Destination Host Count:</label>
+            <input type="number" id="dst_host_count" name="dst_host_count">
+        </div>
+        <div class="form-group">
+            <label for="dst_host_srv_count">Destination Host Service Count:</label>
+            <input type="number" id="dst_host_srv_count" name="dst_host_srv_count">
+        </div>
+        <div class="form-group">
+            <button onclick="predict()">
+                <span class="text">Predict</span>
+              </button>
+        </div>
+        <div id="predictionResult"></div>
+    </div>
+
+    <script>
+        function predict() {
+            var duration = document.getElementById('duration').value;
+            var service = document.getElementById('service').value;
+            var src_bytes = document.getElementById('src_bytes').value;
+            var dst_bytes = document.getElementById('dst_bytes').value;
+            var wrong_fragment = document.getElementById('wrong_fragment').value;
+            var hot = document.getElementById('hot').value;
+            var count = document.getElementById('count').value;
+            var srv_count = document.getElementById('srv_count').value;
+            var dst_host_count = document.getElementById('dst_host_count').value;
+            var dst_host_srv_count = document.getElementById('dst_host_srv_count').value;
+
+            var inputData = {
+                'duration': duration,
+                'service': service,
+                'src_bytes': src_bytes,
+                'dst_bytes': dst_bytes,
+                'wrong_fragment': wrong_fragment,
+                'hot': hot,
+                'count': count,
+                'srv_count': srv_count,
+                'dst_host_count': dst_host_count,
+                'dst_host_srv_count': dst_host_srv_count
+            };
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(inputData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('predictionResult').innerText = 'Predicted Attack Type: ' + data.prediction;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
