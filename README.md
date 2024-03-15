@@ -50,7 +50,7 @@ To deploy the application to a production environment, follow these steps:
 
 ## Contributors
 
-- [Dhyan Ganesh S](https://github.com/yourusername) - Developer
+- [Dhyan Ganesh S](https://github.com/dhyanganesh) - Developer
 - [Tanusha R] - Team Leader & Backend Developer
 - [Harshitha PB] - Backend Developer
 - [NS Dheeraj Gowda] - Research Engineer
